@@ -7,9 +7,14 @@ def generate_random_number(bit_length):
     random_bits = gmpy2.mpz(random.getrandbits(bit_length))
     return random_bits | 1  
 
-
 def power_mod(base, exp, mod):
-    result = gmpy2.powmod(base, exp, mod)
+    result = gmpy2.mpz(1)
+    base = base % mod
+    while exp > 0:
+        if exp % 2 == 1:
+            result = (result * base) % mod
+        base = (base * base) % mod
+        exp >>= 1
     return result
 
 
@@ -85,10 +90,12 @@ def generate_keys(public_key_file, private_key_file):
     e = gmpy2.mpz(65537) 
     d = mod_inverse(e, phi)
 
-    with open(public_key_file, "w") as pub_file:
+    os.mkdir("keys")
+
+    with open(f"keys/{public_key_file}", "w") as pub_file:
         pub_file.write(f"{e}\n{n}\n")
 
-    with open(private_key_file, "w") as priv_file:
+    with open(f"keys/{private_key_file}", "w") as priv_file:
         priv_file.write(f"{d}\n{n}\n")
 
     print("Ключи успешно сгенерированы и сохранены.")
