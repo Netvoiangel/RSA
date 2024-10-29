@@ -109,7 +109,7 @@ def string_to_integer(message):
 
 
 def encrypt(input_file, output_file, public_key_file):
-    with open(public_key_file, "r") as pub_file:
+    with open(f"keys/{public_key_file}", "r") as pub_file:
         e = gmpy2.mpz(pub_file.readline().strip())
         n = gmpy2.mpz(pub_file.readline().strip())
 
@@ -134,7 +134,7 @@ def integer_to_string(num):
 
 
 def decrypt(input_file, output_file, private_key_file):
-    with open(private_key_file, "r") as priv_file:
+    with open(f"keys/{private_key_file}", "r") as priv_file:
         d = gmpy2.mpz(priv_file.readline().strip())
         n = gmpy2.mpz(priv_file.readline().strip())
 
